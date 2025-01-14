@@ -5,9 +5,9 @@ const USERS_API = import.meta.env.VITE_PROJECT_API;
 const USERS_URL = `${USERS_API}/users`;
 
 // User Login
-export const userLogin = async (credentials) => {
+export const userLogin = async (email, password, loggedIn) => {
 	try {
-		const data = JSON.stringify(credentials);
+		const data = JSON.stringify({ email, password });
 		const config = {
 			method: "post",
 			maxBodyLength: Infinity,
@@ -20,7 +20,10 @@ export const userLogin = async (credentials) => {
 		if (!token) {
 			throw new Error("No token received from server.");
 		}
-		localStorage.setItem("token", token);
+		loggedIn
+			? (localStorage.setItem("token", token),
+			  sessionStorage.setItem("token", token))
+			: sessionStorage.setItem("token", token);
 		return response.data;
 	} catch (error) {
 		console.error("Login Error:", error.response?.data || error.message);
@@ -178,7 +181,8 @@ export const updateUserToken = async (email, password) => {
 		if (!token) {
 			throw new Error("No token received from server.");
 		}
-		localStorage.setItem("token", token);
+		localStorage.getItem("token") ? localStorage.setItem("token", token) : null;
+		sessionStorage.setItem("token", token);
 		return response.data;
 	} catch (error) {
 		console.error("Token Update Error:", error.response?.data || error.message);

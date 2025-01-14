@@ -13,6 +13,7 @@ function Login() {
 		initialValues: {
 			email: "",
 			password: "",
+			stayLoggedIn: false,
 		},
 		validationSchema: yup.object({
 			email: yup
@@ -24,10 +25,11 @@ function Login() {
 				.string()
 				.required("Password is required.")
 				.min(10, "Password must be at least 10 characters"),
+			stayLoggedIn: yup.boolean(),
 		}),
 		onSubmit: async (values) => {
 			try {
-				await userLogin(values);
+				await userLogin(values.email, values.password, values.stayLoggedIn);
 				nav("/");
 			} catch (error) {
 				console.error("Login failed:", error);
@@ -109,6 +111,25 @@ function Login() {
 								className={`invalid-feedback ${themeClasses.fbColor} rounded`}
 							>
 								{formik.errors.password}
+							</div>
+						) : null}
+					</div>
+					<div className="form-check mb-3">
+						<input
+							type="checkbox"
+							name="stayLoggedIn"
+							className="form-check-input"
+							onChange={formik.handleChange}
+							checked={formik.values.stayLoggedIn}
+						/>
+						<label className={`form-check-label ${themeClasses.textColor}`}>
+							Keep me logged in.
+						</label>
+						{formik.touched.stayLoggedIn && formik.errors.stayLoggedIn ? (
+							<div
+								className={`invalid-feedback ${themeClasses.fbColor} rounded px-2`}
+							>
+								{formik.errors.stayLoggedIn}
 							</div>
 						) : null}
 					</div>
