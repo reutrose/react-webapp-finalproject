@@ -44,8 +44,9 @@ export const userRegister = async (userData) => {
 			email: userData.email,
 			password: userData.password,
 			image: {
-				url: userData.image.url,
-				alt: userData.image.alt,
+				url:
+					userData.image.url || "https://i.ibb.co/B4rd7yx/default-Avatar.png",
+				alt: userData.image.alt || "Avatar",
 			},
 			address: {
 				state: userData.address.state,

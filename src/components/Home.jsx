@@ -84,7 +84,15 @@ function Home({ setCards, filteredCards, setFilteredCards, userType }) {
 				<p className="fs-5 text">
 					Here you can find business cards from all categories.
 				</p>
-				<div style={user.isBusiness ? null : { display: "none" }}>
+				<div
+					style={
+						user
+							? user.isBusiness
+								? null
+								: { display: "none" }
+							: { display: "none" }
+					}
+				>
 					<Link
 						to="/create-card"
 						className="btn btn-primary rounded-circle"

@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import * as yup from "yup";
 import { ThemeContext } from "./Theme";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { userLogin } from "../services/userService";
 function Login() {
 	const { themeClasses } = useContext(ThemeContext);
 	const nav = useNavigate();
+	const [errorMessage, setErrorMessage] = useState("");
 
 	const formik = useFormik({
 		initialValues: {
@@ -33,6 +34,7 @@ function Login() {
 				nav("/");
 			} catch (error) {
 				console.error("Login failed:", error);
+				setErrorMessage("Invalid email or password.");
 			}
 		},
 	});
@@ -133,6 +135,9 @@ function Login() {
 							</div>
 						) : null}
 					</div>
+					{errorMessage && (
+						<div className="alert alert-danger text-center">{errorMessage}</div>
+					)}
 					<div className="d-flex w-100 mb-2">
 						<button
 							type="button"

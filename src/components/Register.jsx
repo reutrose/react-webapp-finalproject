@@ -101,7 +101,7 @@ function Register() {
 		onSubmit: (values) => {
 			userRegister(values)
 				.then(() => {
-					userLogin({ email: values.email, password: values.password })
+					userLogin(values.email, values.password, false)
 						.then((response) => {
 							const token = response;
 							const user = jwtDecode(token);

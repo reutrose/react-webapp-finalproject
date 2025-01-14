@@ -5,11 +5,13 @@ import {
 	updateUserType,
 	updateUserToken,
 	logout,
+	deleteUser,
 } from "../services/userService";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { ThemeContext } from "./Theme";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 const UserCard = ({ userData }) => {
 	const [show, setShow] = useState(false);
@@ -52,6 +54,13 @@ const UserCard = ({ userData }) => {
 
 	const handleLogOut = async () => {
 		await logout();
+	};
+
+	const handleDeleteAccount = async () => {
+		if (confirm("Are you sure you want to delete your account?")) {
+			await deleteUser(userId, token);
+			logout();
+		}
 	};
 
 	return (
@@ -211,6 +220,12 @@ const UserCard = ({ userData }) => {
 									<strong>User Since: </strong>
 									{format(new Date(userData.createdAt), "MMMM do yyyy")}{" "}
 								</p>
+								<Link
+									onClick={handleDeleteAccount}
+									style={{ color: "red", textDecoration: "none" }}
+								>
+									I want to permanently delete my account.
+								</Link>
 							</div>
 						</div>
 					</div>

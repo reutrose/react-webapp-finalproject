@@ -1,7 +1,21 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function PageNotFound() {
+	const [loading, setLoading] = useState(true);
 	let nav = useNavigate();
+
+	useEffect(() => {
+		const timer = setTimeout(() => setLoading(false), 700);
+		return () => clearTimeout(timer);
+	}, []);
+
+	if (loading) {
+		return (
+			<div className="d-flex justify-content-center align-items-center vh-100"></div>
+		);
+	}
+
 	return (
 		<>
 			<div className="container text-center">
