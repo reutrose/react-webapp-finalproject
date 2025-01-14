@@ -16,7 +16,8 @@ import {
 } from "../templates/userValidationSchemas";
 
 function EditUserDetails({ setDisplay }) {
-	let token = localStorage.getItem("token");
+	const token =
+		sessionStorage.getItem("token") || localStorage.getItem("token");
 	let userId = jwtDecode(token)._id;
 	const [loading, setLoading] = useState(true);
 	const [errorMessage, setErrorMessage] = useState("");

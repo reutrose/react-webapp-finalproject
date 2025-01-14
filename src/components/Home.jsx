@@ -23,7 +23,8 @@ function Home({ setCards, filteredCards, setFilteredCards, userType }) {
 	const { themeClasses } = useContext(ThemeContext);
 	const pages = setPagesNumber(filteredCards, 12);
 
-	const token = localStorage.getItem("token");
+	const token =
+		sessionStorage.getItem("token") || localStorage.getItem("token");
 	let user = null;
 	if (token) {
 		user = jwtDecode(token);

@@ -21,7 +21,8 @@ import Sandbox from "./components/Sandbox";
 
 function App() {
 	let [userType, setUserType] = useState("guest");
-	const token = localStorage.getItem("token");
+	const token =
+		sessionStorage.getItem("token") || localStorage.getItem("token");
 
 	useEffect(() => {
 		if (token) {

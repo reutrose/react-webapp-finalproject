@@ -80,7 +80,8 @@ export const checkEmail = (email) => {
 // Get a User by ID
 export const getUserById = async () => {
 	try {
-		let token = localStorage.getItem("token");
+		const token =
+			sessionStorage.getItem("token") || localStorage.getItem("token");
 		const decoded = jwtDecode(token);
 		const userId = decoded._id;
 		let config = {
@@ -102,7 +103,8 @@ export const getUserById = async () => {
 // Get All Users
 export const getAllUsers = async () => {
 	try {
-		let token = localStorage.getItem("token");
+		const token =
+			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let config = {
 			method: "get",
 			maxBodyLength: Infinity,
@@ -122,7 +124,8 @@ export const getAllUsers = async () => {
 // values.name, values.phone, values.image, values.address
 export const updateUser = async (updatedData, userId) => {
 	try {
-		let token = localStorage.getItem("token");
+		const token =
+			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let config = {
 			method: "put",
 			maxBodyLength: Infinity,
@@ -206,6 +209,7 @@ export const deleteUser = async (userId, token) => {
 export const logout = async () => {
 	try {
 		localStorage.removeItem("token");
+		sessionStorage.removeItem("token");
 		window.location.replace("/login");
 	} catch (error) {
 		console.error(error);

@@ -83,7 +83,8 @@ export const navigateToBusinessPage = async (email, nav) => {
 // Get all my cards
 export const getAllMyCards = async () => {
 	try {
-		let token = localStorage.getItem("token");
+		const token =
+			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let config = {
 			method: "get",
 			maxBodyLength: Infinity,
@@ -103,7 +104,8 @@ export const getAllMyCards = async () => {
 // Create a new card
 export const createNewCard = async (cardData) => {
 	try {
-		let token = localStorage.getItem("token");
+		const token =
+			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let config = {
 			method: "post",
 			maxBodyLength: Infinity,
@@ -124,7 +126,8 @@ export const createNewCard = async (cardData) => {
 // Update a card
 export const updateCard = async (cardId, cardData) => {
 	try {
-		let token = localStorage.getItem("token");
+		const token =
+			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let config = {
 			method: "put",
 			maxBodyLength: Infinity,
@@ -145,7 +148,8 @@ export const updateCard = async (cardId, cardData) => {
 // Like/Unlike a card
 export const cardLikeUnlike = async (cardId) => {
 	try {
-		let token = localStorage.getItem("token");
+		const token =
+			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let config = {
 			method: "patch",
 			maxBodyLength: Infinity,
@@ -164,7 +168,8 @@ export const cardLikeUnlike = async (cardId) => {
 
 export const getLikedByUserId = async () => {
 	try {
-		let token = localStorage.getItem("token");
+		const token =
+			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let userId = jwtDecode(token)._id;
 		let cards = await getAllCards();
 		let likedCards = [];
@@ -183,7 +188,8 @@ export const getLikedByUserId = async () => {
 // Delete a card
 export const deleteCard = async (cardId) => {
 	try {
-		let token = localStorage.getItem("token");
+		const token =
+			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let config = {
 			method: "delete",
 			maxBodyLength: Infinity,

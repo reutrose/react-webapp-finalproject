@@ -17,7 +17,8 @@ function Favorites() {
 	let nav = useNavigate();
 	const { themeClasses } = useContext(ThemeContext);
 
-	const token = localStorage.getItem("token");
+	const token =
+		sessionStorage.getItem("token") || localStorage.getItem("token");
 	let user = null;
 	if (token) {
 		user = jwtDecode(token);

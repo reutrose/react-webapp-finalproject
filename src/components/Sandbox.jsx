@@ -19,7 +19,8 @@ function Sandbox() {
 	let [processingUserId, setProcessingUserId] = useState(null);
 	let [deletingUserId, setDeletingUserId] = useState(null);
 	let [currentAdmin, setCurrentAdmin] = useState(null);
-	let token = localStorage.getItem("token");
+	const token =
+		sessionStorage.getItem("token") || localStorage.getItem("token");
 	let loggedUserId = token ? jwtDecode(token)._id : null;
 	const { themeClasses } = useContext(ThemeContext);
 
@@ -39,7 +40,8 @@ function Sandbox() {
 	const handleEditRole = async (userId) => {
 		try {
 			setProcessingUserId(userId);
-			let token = localStorage.getItem("token");
+			const token =
+				sessionStorage.getItem("token") || localStorage.getItem("token");
 			await updateUserType(userId, token);
 			getAllUsers().then((users) => {
 				setUsers(users);
@@ -54,7 +56,8 @@ function Sandbox() {
 	const handleDelete = async (userId) => {
 		try {
 			setDeletingUserId(userId);
-			let token = localStorage.getItem("token");
+			const token =
+				sessionStorage.getItem("token") || localStorage.getItem("token");
 			await deleteUser(userId, token);
 			getAllUsers().then((users) => {
 				setUsers(users);

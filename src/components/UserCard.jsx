@@ -18,7 +18,8 @@ const UserCard = ({ userData }) => {
 	const [errorMessage, setErrorMessage] = useState("");
 	const { themeClasses } = useContext(ThemeContext);
 
-	let token = localStorage.getItem("token");
+	const token =
+		sessionStorage.getItem("token") || localStorage.getItem("token");
 	let userId = jwtDecode(token)._id;
 
 	// Show / Hide --- Change User Type Modal

@@ -9,7 +9,8 @@ function UserProfile() {
 	const [loading, setLoading] = useState(true);
 	const [disabled, setDisabled] = useState(true);
 	const [user, setUser] = useState(null);
-	let token = localStorage.getItem("token");
+	const token =
+		sessionStorage.getItem("token") || localStorage.getItem("token");
 	let userData = jwtDecode(token);
 	let isBusiness = userData.isBusiness;
 	const [display, setDisplay] = useState(false);
