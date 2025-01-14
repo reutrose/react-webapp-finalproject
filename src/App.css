@@ -1,0 +1,20 @@
+body {
+	padding-bottom: 90px;
+}
+
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 1000;
+	box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+	height: 75px;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+.capitaletters {
+	text-transform: uppercase;
+}
