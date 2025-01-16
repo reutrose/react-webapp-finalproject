@@ -8,11 +8,11 @@ export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
 	const [isDarkMode, setIsDarkMode] = useState(() => {
-		return localStorage.getItem("isDarkMode") === "true";
+		return sessionStorage.getItem("isDarkMode") === "true";
 	});
 
 	useEffect(() => {
-		localStorage.setItem("isDarkMode", isDarkMode);
+		sessionStorage.setItem("isDarkMode", isDarkMode);
 		document.body.className = isDarkMode
 			? "bg-secondary text-light"
 			: "bg-info-subtle text-dark";

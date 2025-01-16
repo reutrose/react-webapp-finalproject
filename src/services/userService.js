@@ -1,8 +1,8 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const USERS_API = import.meta.env.VITE_PROJECT_API;
-const USERS_URL = `${USERS_API}/users`;
+const SERVER = import.meta.env.VITE_PROJECT_API;
+const USERS_URL = `${SERVER}/users`;
 
 // User Login
 export const userLogin = async (email, password, loggedIn) => {
@@ -16,14 +16,16 @@ export const userLogin = async (email, password, loggedIn) => {
 			data: data,
 		};
 		const response = await axios.request(config);
-		const token = response.data.token || response.data;
+		const token = response.data;
 		if (!token) {
 			throw new Error("No token received from server.");
 		}
-		loggedIn
-			? (localStorage.setItem("token", token),
-			  sessionStorage.setItem("token", token))
-			: sessionStorage.setItem("token", token);
+		if (loggedIn) {
+			localStorage.setItem("token", token);
+			sessionStorage.setItem("token", token);
+		} else {
+			sessionStorage.setItem("token", token);
+		}
 		return response.data;
 	} catch (error) {
 		console.error("Login Error:", error.response?.data || error.message);
@@ -35,29 +37,13 @@ export const userLogin = async (email, password, loggedIn) => {
 export const userRegister = async (userData) => {
 	try {
 		let data = {
-			name: {
-				first: userData.name.first,
-				middle: userData.name.middle,
-				last: userData.name.last,
-			},
-			phone: userData.phone,
-			email: userData.email,
-			password: userData.password,
+			...userData,
 			image: {
 				url:
 					userData.image.url ||
 					"https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
 				alt: userData.image.alt || "Avatar",
 			},
-			address: {
-				state: userData.address.state,
-				country: userData.address.country,
-				city: userData.address.city,
-				street: userData.address.street,
-				houseNumber: userData.address.houseNumber,
-				zip: userData.address.zip,
-			},
-			isBusiness: userData.isBusiness,
 		};
 
 		let config = {
@@ -125,7 +111,6 @@ export const getAllUsers = async () => {
 };
 
 // Update User
-// values.name, values.phone, values.image, values.address
 export const updateUser = async (updatedData, userId) => {
 	try {
 		const token =
@@ -210,6 +195,7 @@ export const deleteUser = async (userId, token) => {
 	}
 };
 
+// Logout
 export const logout = async () => {
 	try {
 		localStorage.removeItem("token");

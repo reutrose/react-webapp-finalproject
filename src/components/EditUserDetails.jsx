@@ -4,11 +4,16 @@ import { Spinner } from "react-bootstrap";
 import { getUserById, updateUser } from "../services/userService";
 import { jwtDecode } from "jwt-decode";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "./Theme";
 import FormField from "./FormField";
-import validationSchema from "../services/schemaService";
-
+import {
+	nameValidation,
+	phoneValidation,
+	imageValidation,
+	addressValidation,
+} from "../services/schemaService";
 function EditUserDetails({ setDisplay }) {
 	const token =
 		sessionStorage.getItem("token") || localStorage.getItem("token");
@@ -39,7 +44,12 @@ function EditUserDetails({ setDisplay }) {
 				zip: "",
 			},
 		},
-		validationSchema: validationSchema,
+		validationSchema: Yup.object({
+			name: nameValidation,
+			phone: phoneValidation,
+			image: imageValidation,
+			address: addressValidation,
+		}),
 		onSubmit: (values) => {
 			updateUser(values, userId)
 				.then(() => {

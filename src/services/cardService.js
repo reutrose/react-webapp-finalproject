@@ -1,8 +1,8 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const CARDS_API = import.meta.env.VITE_PROJECT_API;
-const CARDS_URL = `${CARDS_API}/cards`;
+const SERVER = import.meta.env.VITE_PROJECT_API;
+const CARDS_URL = `${SERVER}/cards`;
 
 // Tools for Pagination
 export const setPagesNumber = (cards, cardsPerPage) => {
@@ -26,7 +26,7 @@ export const paginateCards = (cards, page, cardsPerPage) => {
 export const filterCards = (cards, query) => {
 	return cards.filter((card) => {
 		const searchString =
-			`${card.title} ${card.phone} ${card.address.houseNumber} ${card.address.street} ${card.address.city} ${card.address.country} ${card.bizNumber}`.toLowerCase();
+			`${card.title} ${card.phone} ${card.email} ${card.address.houseNumber} ${card.address.street} ${card.address.city} ${card.address.country} ${card.bizNumber}`.toLowerCase();
 		return searchString.includes(query.toLowerCase());
 	});
 };
@@ -65,19 +65,6 @@ export const getCardById = async (cardId) => {
 			console.error(error);
 			throw error;
 		});
-};
-
-// Get a Card by Email
-export const getCardByEmail = async (email) => {
-	let cards = await getAllCards();
-	let card = await cards.find((card) => card.email === email);
-	return card;
-};
-
-export const navigateToBusinessPage = async (email, nav) => {
-	let newCard = await getCardByEmail(email);
-	let cardId = await newCard._id;
-	nav(`/business-details/${cardId}`);
 };
 
 // Get all my cards

@@ -1,10 +1,19 @@
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { userRegister, userLogin } from "../services/userService";
 import { ThemeContext } from "./Theme";
 import { useContext, useState } from "react";
 import FormField from "./FormField";
-import validationSchema from "../services/schemaService";
+import {
+	nameValidation,
+	phoneValidation,
+	emailValidation,
+	passwordValidation,
+	imageValidation,
+	addressValidation,
+	isBusinessValidation,
+} from "../services/schemaService";
 
 function Register() {
 	const { themeClasses } = useContext(ThemeContext);
@@ -35,7 +44,15 @@ function Register() {
 			},
 			isBusiness: false,
 		},
-		validationSchema: validationSchema,
+		validationSchema: Yup.object({
+			name: nameValidation,
+			phone: phoneValidation,
+			email: emailValidation,
+			password: passwordValidation,
+			image: imageValidation,
+			address: addressValidation,
+			isBusiness: isBusinessValidation,
+		}),
 		onSubmit: (values) => {
 			userRegister(values)
 				.then(() => {
@@ -211,6 +228,13 @@ function Register() {
 							<label className={`form-check-label ${themeClasses.textColor}`}>
 								Signup as business.
 							</label>
+							{formik.touched.isBusiness && formik.errors.isBusiness ? (
+								<div
+									className={`invalid-feedback ${themeClasses.fbColor} rounded px-2`}
+								>
+									{formik.errors.isBusiness}
+								</div>
+							) : null}
 						</div>
 					</div>
 				</div>
