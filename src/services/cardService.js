@@ -71,7 +71,7 @@ export const getCardById = async (cardId) => {
 export const getCardByEmail = async (email) => {
 	let cards = await getAllCards();
 	let card = await cards.find((card) => card.email === email);
-	console.log(card);
+	return card;
 };
 
 export const navigateToBusinessPage = async (email, nav) => {
@@ -140,8 +140,7 @@ export const updateCard = async (cardId, cardData) => {
 		const response = await axios.request(config);
 		return response.data;
 	} catch (error) {
-		console.error(error);
-		throw error;
+		console.log(error);
 	}
 };
 

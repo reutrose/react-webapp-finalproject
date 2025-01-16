@@ -1,59 +1,56 @@
 import PropTypes from "prop-types";
+import ValidationError from "./ValidationError";
 import { getIn } from "formik";
 
-const FormField = ({
-	type = "text",
+function FormField({
 	name,
-	label,
-	placeholder,
+	type,
 	formik,
-	disabled,
-	themeClasses = {},
-	autoComplete = "on",
-	capitalize = false,
-	capitaletters = false,
-}) => {
-	const error = getIn(formik.touched, name) && getIn(formik.errors, name);
-	const value = getIn(formik.values, name);
+	required,
+	fieldFor,
+	fbColor,
+	capitalize,
+}) {
+	const { value, onChange, onBlur } = formik.getFieldProps(name);
 
 	return (
 		<div className="form-floating mb-3">
 			<input
+				id={name}
 				type={type}
+				autoComplete="on"
 				name={name}
-				className={`form-control ${capitalize ? "capitalize" : ""} ${
-					capitaletters ? "capitaletters" : ""
-				} ${error ? "is-invalid" : ""}`}
-				placeholder={placeholder || label}
-				onChange={formik.handleChange}
+				className={`form-control ${capitalize ? "capitalize" : null} ${
+					getIn(formik.touched, name) && getIn(formik.errors, name)
+						? "is-invalid"
+						: ""
+				}`}
+				placeholder={fieldFor}
+				onChange={onChange}
 				value={value}
-				onBlur={formik.handleBlur}
-				disabled={disabled}
-				autoComplete={autoComplete}
+				onBlur={onBlur}
 			/>
-			<label className="text-secondary">{label}</label>
-			{error && (
-				<div
-					className={`invalid-feedback ${themeClasses.fbColor} rounded px-2`}
-				>
-					{getIn(formik.errors, name)}
-				</div>
-			)}
+			<label htmlFor={name} className="text-secondary">
+				{fieldFor}
+				{required && <span style={{ color: "red" }}>*</span>}
+			</label>
+			<ValidationError
+				touched={getIn(formik.touched, name)}
+				error={getIn(formik.errors, name)}
+				fbColor={fbColor}
+			/>
 		</div>
 	);
-};
+}
 
 FormField.propTypes = {
-	type: PropTypes.string,
 	name: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
-	placeholder: PropTypes.string,
-	formik: PropTypes.object.isRequired,
-	disabled: PropTypes.bool,
-	themeClasses: PropTypes.object,
-	autoComplete: PropTypes.string,
+	type: PropTypes.string.isRequired,
+	fbColor: PropTypes.string,
 	capitalize: PropTypes.bool,
-	capitaletters: PropTypes.bool,
+	fieldFor: PropTypes.string.isRequired,
+	formik: PropTypes.object.isRequired,
+	required: PropTypes.bool,
 };
 
 export default FormField;

@@ -4,16 +4,10 @@ import { Spinner } from "react-bootstrap";
 import { getUserById, updateUser } from "../services/userService";
 import { jwtDecode } from "jwt-decode";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "./Theme";
 import FormField from "./FormField";
-import {
-	addressValidation,
-	imageValidation,
-	nameValidation,
-	phoneValidation,
-} from "../templates/userValidationSchemas";
+import validationSchema from "../services/schemaService";
 
 function EditUserDetails({ setDisplay }) {
 	const token =
@@ -45,12 +39,7 @@ function EditUserDetails({ setDisplay }) {
 				zip: "",
 			},
 		},
-		validationSchema: Yup.object({
-			name: nameValidation,
-			phone: phoneValidation,
-			image: imageValidation,
-			address: addressValidation,
-		}),
+		validationSchema: validationSchema,
 		onSubmit: (values) => {
 			updateUser(values, userId)
 				.then(() => {
@@ -79,7 +68,10 @@ function EditUserDetails({ setDisplay }) {
 						alt: userData.image.alt,
 					},
 					address: {
-						state: userData.address.state,
+						state:
+							userData.address.state === "not defined"
+								? ""
+								: userData.address.state,
 						country: userData.address.country,
 						city: userData.address.city,
 						street: userData.address.street,
@@ -109,108 +101,131 @@ function EditUserDetails({ setDisplay }) {
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="name.first"
-										label="First Name (required)"
-										placeholder="First Name"
+										type="text"
+										fieldFor="First Name"
 										formik={formik}
-										capitalize
+										required={true}
+										fbColor={themeClasses.fbColor}
+										capitalize={true}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="name.middle"
-										label="Middle Name"
-										placeholder="Middle Name"
+										type="text"
+										fieldFor="Middle Name"
 										formik={formik}
-										capitalize
+										required={false}
+										fbColor={themeClasses.fbColor}
+										capitalize={true}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="name.last"
-										label="Last Name (required)"
-										placeholder="Last Name"
+										type="text"
+										fieldFor="Last Name"
 										formik={formik}
-										capitalize
+										required={true}
+										fbColor={themeClasses.fbColor}
+										capitalize={true}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="phone"
-										label="Phone (required)"
-										placeholder="Phone"
+										type="text"
+										fieldFor="Phone"
 										formik={formik}
+										required={true}
+										fbColor={themeClasses.fbColor}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
-										type="url"
 										name="image.url"
-										label="Image URL"
-										placeholder="Image URL"
+										type="url"
+										fieldFor="Image URL"
 										formik={formik}
+										required={false}
+										fbColor={themeClasses.fbColor}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="image.alt"
-										label="Image Description"
-										placeholder="Image Description"
+										type="text"
+										fieldFor="Image Description"
 										formik={formik}
-										capitalize
+										required={false}
+										fbColor={themeClasses.fbColor}
+										capitalize={true}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="address.state"
-										label="State"
-										placeholder="State"
+										type="text"
+										fieldFor="State"
 										formik={formik}
+										required={false}
+										fbColor={themeClasses.fbColor}
 										capitaletters
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="address.country"
-										label="Country (required)"
-										placeholder="Country"
+										type="text"
+										fieldFor="Country"
 										formik={formik}
-										capitalize
+										required={true}
+										fbColor={themeClasses.fbColor}
+										capitalize={true}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="address.city"
-										label="City (required)"
-										placeholder="City"
+										type="text"
+										fieldFor="City"
 										formik={formik}
-										capitalize
+										required={true}
+										fbColor={themeClasses.fbColor}
+										capitalize={true}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="address.street"
-										label="Street (required)"
-										placeholder="Street"
+										type="text"
+										fieldFor="Street"
 										formik={formik}
-										capitalize
+										required={true}
+										fbColor={themeClasses.fbColor}
+										capitalize={true}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="address.houseNumber"
-										label="House Number (required)"
-										placeholder="House Number"
+										type="text"
+										fieldFor="House Number"
 										formik={formik}
-										capitalize
+										required={true}
+										fbColor={themeClasses.fbColor}
+										capitalize={true}
 									/>
 								</div>
 								<div className="col-md-6 mb-3">
 									<FormField
 										name="address.zip"
-										label="Zip-Code (required)"
-										placeholder="Zip"
+										type="text"
+										fieldFor="Zip-Code"
 										formik={formik}
-										capitalize
+										required={true}
+										fbColor={themeClasses.fbColor}
+										capitalize={true}
 									/>
 								</div>
 							</div>

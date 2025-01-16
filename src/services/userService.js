@@ -45,7 +45,8 @@ export const userRegister = async (userData) => {
 			password: userData.password,
 			image: {
 				url:
-					userData.image.url || "https://i.ibb.co/B4rd7yx/default-Avatar.png",
+					userData.image.url ||
+					"https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
 				alt: userData.image.alt || "Avatar",
 			},
 			address: {
@@ -68,7 +69,6 @@ export const userRegister = async (userData) => {
 		};
 
 		const response = await axios.request(config);
-		console.log(JSON.stringify(response.data));
 		return response.data;
 	} catch (error) {
 		console.error(error);
@@ -203,7 +203,6 @@ export const deleteUser = async (userId, token) => {
 			},
 		};
 		const response = await axios.request(config);
-		console.log(JSON.stringify(response.data));
 		return response.data;
 	} catch (error) {
 		console.error(error);
