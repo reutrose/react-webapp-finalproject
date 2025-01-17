@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import PropTypes from "prop-types";
 import {
@@ -7,40 +7,28 @@ import {
 	logout,
 	deleteUser,
 } from "../services/userService";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import { ThemeContext } from "./Theme";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
+import DeleteAccountModal from "./modals/DeleteAccountModal";
+import LogoutModal from "./modals/LogoutModal";
+import ChangeUserTypeModal from "./modals/ChangeUserTypeModal";
 
 const UserCard = ({ userData }) => {
-	const [show, setShow] = useState(false);
+	const [showChangeUserTypeModal, setShowChangeUserTypeModal] = useState(false);
 	const [showLogOutModal, setShowLogOutModal] = useState(false);
+	const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
-	const { themeClasses } = useContext(ThemeContext);
 
 	const token =
 		sessionStorage.getItem("token") || localStorage.getItem("token");
 	let userId = jwtDecode(token)._id;
 
-	// Show / Hide --- Change User Type Modal
-	const handleClose = () => {
-		setErrorMessage("");
-		setPassword("");
-		setShow(false);
-	};
-	const handleShow = () => setShow(true);
-
-	// Show / Hide --- Log Out Modal
-	const handleLogOutShow = () => setShowLogOutModal(true);
-	const handleLogOutClose = () => setShowLogOutModal(false);
-
 	const handleConfirmChange = async () => {
 		try {
 			await updateUserType(userId, token);
 			await updateUserToken(userData.email, password);
-			setShow(false);
+			setShowChangeUserTypeModal(false);
 			location.reload();
 		} catch (error) {
 			if (error.response && error.response.status === 400) {
@@ -57,65 +45,31 @@ const UserCard = ({ userData }) => {
 	};
 
 	const handleDeleteAccount = async () => {
-		if (confirm("Are you sure you want to delete your account?")) {
-			await deleteUser(userId, token);
-			logout();
-		}
+		await deleteUser(userId, token);
+		logout();
 	};
 
 	return (
 		<>
-			<Modal show={show} onHide={handleClose}>
-				<Modal.Header closeButton className={themeClasses.bgColor}>
-					<Modal.Title>
-						Change to a {userData.isBusiness ? "Customer" : "Business"} Account
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body className={themeClasses.bgColor}>
-					<p>
-						Changing the user type will change your permissions. Are you sure?
-					</p>
-					<div className="input-group">
-						<span className="input-group-text">Confirm Password:</span>
-						<input
-							type="password"
-							aria-label="password"
-							className="form-control"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</div>
-					{errorMessage && (
-						<div className="alert alert-danger" role="alert">
-							{errorMessage}
-						</div>
-					)}
-				</Modal.Body>
-				<Modal.Footer className={themeClasses.bgColor}>
-					<Button variant="danger" onClick={handleClose}>
-						Cancel
-					</Button>
-					<Button variant="success" onClick={handleConfirmChange}>
-						Change
-					</Button>
-				</Modal.Footer>
-			</Modal>
-			<Modal show={showLogOutModal} onHide={handleLogOutClose}>
-				<Modal.Header closeButton className={themeClasses.bgColor}>
-					<Modal.Title>Log Out?</Modal.Title>
-				</Modal.Header>
-				<Modal.Body className={themeClasses.bgColor}>
-					<p>Are you sure you want to log out from your account?</p>
-				</Modal.Body>
-				<Modal.Footer className={themeClasses.bgColor}>
-					<Button variant="outline-secondary" onClick={handleLogOutClose}>
-						Cancel
-					</Button>
-					<Button variant="danger" onClick={handleLogOut}>
-						Log Out
-					</Button>
-				</Modal.Footer>
-			</Modal>
+			<ChangeUserTypeModal
+				show={showChangeUserTypeModal}
+				handleClose={() => setShowChangeUserTypeModal(false)}
+				handleConfirmChange={handleConfirmChange}
+				password={password}
+				setPassword={setPassword}
+				errorMessage={errorMessage}
+				userData={userData}
+			/>
+			<LogoutModal
+				show={showLogOutModal}
+				handleClose={() => setShowLogOutModal(false)}
+				handleLogout={handleLogOut}
+			/>
+			<DeleteAccountModal
+				show={showDeleteAccountModal}
+				handleClose={() => setShowDeleteAccountModal(false)}
+				handleDeleteAccount={handleDeleteAccount}
+			/>
 			<div className="container">
 				<div className="row">
 					<div className="col-12 col-md-6">
@@ -152,7 +106,7 @@ const UserCard = ({ userData }) => {
 									<strong>City: </strong>
 									<span className="capitalize">{userData.address.city}</span>
 								</p>
-								{userData.address.state && (
+								{userData.address.state != "not defined" && (
 									<p className="card-text">
 										<strong>State / Province: </strong>
 										<span className="capitalize">{userData.address.state}</span>
@@ -193,7 +147,10 @@ const UserCard = ({ userData }) => {
 									</span>
 									.
 								</p>
-								<button onClick={handleShow} className="btn btn-warning w-100">
+								<button
+									onClick={() => setShowChangeUserTypeModal(true)}
+									className="btn btn-warning w-100"
+								>
 									Change to a{" "}
 									<span className="fw-bold">
 										{userData.isBusiness ? "Customer" : "Business"}
@@ -207,7 +164,7 @@ const UserCard = ({ userData }) => {
 								<h5 className="card-title">Log Out</h5>
 								<button
 									className="btn btn-danger w-100"
-									onClick={handleLogOutShow}
+									onClick={() => setShowLogOutModal(true)}
 								>
 									Log Out &nbsp;{" "}
 									<i className="fa-solid fa-right-from-bracket"></i>
@@ -221,7 +178,7 @@ const UserCard = ({ userData }) => {
 									{format(new Date(userData.createdAt), "MMMM do yyyy")}{" "}
 								</p>
 								<Link
-									onClick={handleDeleteAccount}
+									onClick={() => setShowDeleteAccountModal(true)}
 									style={{ color: "red", textDecoration: "none" }}
 								>
 									I want to permanently delete my account.

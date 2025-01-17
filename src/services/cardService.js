@@ -33,38 +33,49 @@ export const filterCards = (cards, query) => {
 
 // Cards - CRUD Operations
 
-// Get All Cards
+// Get all cards
 export const getAllCards = async () => {
-	const businessCards = [];
-	return axios
-		.get(CARDS_URL)
-		.then((response) => response.data)
-		.then((data) => {
-			data.forEach((card) => {
-				businessCards.push(card);
+	try {
+		let config = {
+			method: "get",
+			maxBodyLength: Infinity,
+			url: CARDS_URL,
+			headers: {},
+		};
+		return await axios
+			.request(config)
+			.then((response) => {
+				return response.data;
+			})
+			.catch((error) => {
+				console.error(error);
 			});
-			return businessCards;
-		})
-		.catch((error) => {
-			console.error(error);
-			throw error;
-		});
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
 };
 
 // Get a Card by ID
 export const getCardById = async (cardId) => {
-	let businessCard = {};
-	return axios
-		.get(`${CARDS_URL}/${cardId}`)
-		.then((response) => response.data)
-		.then((data) => {
-			businessCard = data;
-			return businessCard;
-		})
-		.catch((error) => {
-			console.error(error);
-			throw error;
-		});
+	try {
+		let config = {
+			method: "get",
+			maxBodyLength: Infinity,
+			url: `${CARDS_URL}/${cardId}`,
+			headers: {},
+		};
+
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
 };
 
 // Get all my cards
@@ -80,8 +91,12 @@ export const getAllMyCards = async () => {
 				"x-auth-token": token,
 			},
 		};
-		const response = await axios.request(config);
-		return response.data;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -91,6 +106,15 @@ export const getAllMyCards = async () => {
 // Create a new card
 export const createNewCard = async (cardData) => {
 	try {
+		let data = {
+			...cardData,
+			image: {
+				url:
+					cardData.image.url ||
+					"https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_960_720.jpg",
+				alt: cardData.image.alt || "Business Card Image",
+			},
+		};
 		const token =
 			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let config = {
@@ -100,12 +124,24 @@ export const createNewCard = async (cardData) => {
 			headers: {
 				"x-auth-token": token,
 			},
-			data: cardData,
+			data: data,
 		};
-		const response = await axios.request(config);
-		return response.data;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				if (error.response.data.includes("email_1 dup key")) {
+					throw new Error("Email already exists.");
+				}
+			});
 	} catch (error) {
-		console.error(error);
+		if (
+			error.response &&
+			error.response.data &&
+			error.response.data.includes("email_1 dup key")
+		) {
+			throw new Error("Email already exists.");
+		}
 		throw error;
 	}
 };
@@ -113,6 +149,15 @@ export const createNewCard = async (cardData) => {
 // Update a card
 export const updateCard = async (cardId, cardData) => {
 	try {
+		let data = {
+			...cardData,
+			image: {
+				url:
+					cardData.image.url ||
+					"https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_960_720.jpg",
+				alt: cardData.image.alt || "Business Card Image",
+			},
+		};
 		const token =
 			sessionStorage.getItem("token") || localStorage.getItem("token");
 		let config = {
@@ -122,12 +167,23 @@ export const updateCard = async (cardId, cardData) => {
 			headers: {
 				"x-auth-token": token,
 			},
-			data: cardData,
+			data: data,
 		};
-		const response = await axios.request(config);
-		return response.data;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
-		console.log(error);
+		if (
+			error.response &&
+			error.response.data &&
+			error.response.data.includes("email_1 dup key")
+		) {
+			throw new Error("Email already exists.");
+		}
+		throw error;
 	}
 };
 
@@ -144,8 +200,12 @@ export const cardLikeUnlike = async (cardId) => {
 				"x-auth-token": token,
 			},
 		};
-		const response = await axios.request(config);
-		return response.data;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -184,8 +244,12 @@ export const deleteCard = async (cardId) => {
 				"x-auth-token": token,
 			},
 		};
-		const response = await axios.request(config);
-		return response.data;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
 		console.error(error);
 		throw error;

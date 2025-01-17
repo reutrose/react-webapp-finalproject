@@ -54,17 +54,16 @@ export const userRegister = async (userData) => {
 			data: data,
 		};
 
-		const response = await axios.request(config);
-		return response.data;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
 		console.error(error);
 		throw error;
 	}
-};
-
-// Check if email already registered
-export const checkEmail = (email) => {
-	return axios.get(`${USERS_URL}?email=${email}`);
 };
 
 // Get a User by ID
@@ -82,8 +81,12 @@ export const getUserById = async () => {
 				"x-auth-token": token,
 			},
 		};
-		const response = await axios.request(config);
-		return response.data;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -103,8 +106,12 @@ export const getAllUsers = async () => {
 				"x-auth-token": token,
 			},
 		};
-		const response = await axios.request(config);
-		return response.data;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
 		console.error(error);
 	}
@@ -125,9 +132,12 @@ export const updateUser = async (updatedData, userId) => {
 			},
 			data: JSON.stringify(updatedData),
 		};
-		const response = await axios.request(config);
-		let updatedUser = JSON.stringify(response.data);
-		return updatedUser;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -136,18 +146,26 @@ export const updateUser = async (updatedData, userId) => {
 
 // Update User Type
 export const updateUserType = async (userId, token) => {
-	const myHeaders = new Headers();
-	myHeaders.append("x-auth-token", token);
+	try {
+		let config = {
+			method: "patch",
+			maxBodyLength: Infinity,
+			url: `${USERS_URL}/${userId}`,
+			headers: {
+				"x-auth-token": token,
+			},
+		};
 
-	const requestOptions = {
-		method: "PATCH",
-		headers: myHeaders,
-		redirect: "follow",
-	};
-
-	await fetch(`${USERS_URL}/${userId}`, requestOptions)
-		.then((response) => response.text())
-		.catch((error) => console.error(error));
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
 };
 
 // Update User Token
@@ -187,8 +205,12 @@ export const deleteUser = async (userId, token) => {
 				"x-auth-token": token,
 			},
 		};
-		const response = await axios.request(config);
-		return response.data;
+		return await axios
+			.request(config)
+			.then((response) => response.data)
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
 		console.error(error);
 		throw error;

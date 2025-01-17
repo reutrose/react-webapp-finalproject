@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
 	getAllCards,
@@ -7,20 +7,19 @@ import {
 	deleteCard,
 	cardLikeUnlike,
 } from "../services/cardService";
-import { Link, useNavigate } from "react-router-dom";
-import { ThemeContext } from "./Theme";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
 import Spinner from "react-bootstrap/Spinner";
 import { jwtDecode } from "jwt-decode";
+import CardTemplate from "./CardTemplate";
+import { Link } from "react-router-dom";
+import DeleteCardModal from "./modals/DeleteCardModal";
 
 function Home({ setCards, filteredCards, setFilteredCards, userType }) {
 	let [businessCards, setBusinessCards] = useState([]);
 	let [page, setPage] = useState(1);
 	let [range, setRange] = useState("");
 	let [loading, setLoading] = useState(true);
-	let nav = useNavigate();
-	const { themeClasses } = useContext(ThemeContext);
+	const [showDeleteCardModal, setShowDeleteCardModal] = useState(false);
+	const [selectedCardId, setSelectedCardId] = useState(null);
 	const pages = setPagesNumber(filteredCards, 12);
 
 	const token =
@@ -38,7 +37,7 @@ function Home({ setCards, filteredCards, setFilteredCards, userType }) {
 				setLoading(false);
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 				setLoading(false);
 			});
 	}, [setCards, setFilteredCards]);
@@ -56,10 +55,11 @@ function Home({ setCards, filteredCards, setFilteredCards, userType }) {
 	const handleDelete = (cardId) => {
 		deleteCard(cardId)
 			.then(() => {
+				setShowDeleteCardModal(false);
 				setFilteredCards(filteredCards.filter((card) => card._id !== cardId));
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 			});
 	};
 
@@ -73,12 +73,17 @@ function Home({ setCards, filteredCards, setFilteredCards, userType }) {
 				);
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 			});
 	};
 
 	return (
 		<>
+			<DeleteCardModal
+				show={showDeleteCardModal}
+				handleClose={() => setShowDeleteCardModal(false)}
+				handleDeleteCard={() => handleDelete(selectedCardId)}
+			/>
 			<div className="container">
 				<h2 className="display-2 fw-bold my-3">Cards Page</h2>
 				<p className="fs-5 text">
@@ -95,17 +100,7 @@ function Home({ setCards, filteredCards, setFilteredCards, userType }) {
 				>
 					<Link
 						to="/create-card"
-						className="btn btn-primary rounded-circle"
-						style={{
-							position: "fixed",
-							bottom: "90px",
-							right: "15px",
-							width: "50px",
-							height: "50px",
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
-						}}
+						className="btn btn-primary rounded-circle add-card"
 					>
 						<i className="fa-solid fa-plus"></i>
 					</Link>
@@ -157,121 +152,16 @@ function Home({ setCards, filteredCards, setFilteredCards, userType }) {
 					<div className="row justify-content-evenly">
 						{businessCards.length ? (
 							businessCards.map((card) => (
-								<div
-									className="col-lg-4 col-md-6 col-sm-12 align-items-center my-2"
+								<CardTemplate
 									key={card._id}
-								>
-									<Card
-										className={`card my-2 col-lg-12 h-100 ${themeClasses.bgColor} ${themeClasses.textColor}`}
-									>
-										<span
-											style={{ cursor: "pointer" }}
-											onClick={() => {
-												nav(`/business-details/${card._id}`);
-											}}
-										>
-											<Card.Img
-												variant="top"
-												style={{ height: "200px", objectFit: "cover" }}
-												src={card.image.url}
-												alt={card.image.alt}
-											/>
-											<Card.Body>
-												<Card.Title>{card.title}</Card.Title>
-												<Card.Text
-													style={{
-														height: "70px",
-													}}
-												>
-													{card.subtitle}
-												</Card.Text>
-												<hr />
-												<ListGroup variant="flush">
-													<ListGroup.Item
-														className={`m-1 ${themeClasses.bgColor} ${themeClasses.textColor}`}
-													>
-														<span className="fw-bold">Phone: </span>
-														{card.phone}
-													</ListGroup.Item>
-													<ListGroup.Item
-														className={`m-1 ${themeClasses.bgColor} ${themeClasses.textColor}`}
-													>
-														<span className="fw-bold">Address: </span>
-														{card.address.street} {card.address.houseNumber},
-														<br />
-														{card.address.city}, {card.address.country}
-													</ListGroup.Item>
-													<ListGroup.Item
-														className={`m-1 ${themeClasses.bgColor} ${themeClasses.textColor}`}
-													>
-														<span className="fw-bold">Card Number: </span>
-														{card.bizNumber}
-													</ListGroup.Item>
-												</ListGroup>
-											</Card.Body>
-										</span>
-										<Card.Footer
-											className={`col d-flex justify-content-center text-center border-secondary ${themeClasses.bgColor}`}
-										>
-											<Link
-												className="mx-2 mt-2"
-												to={`tel:${card.phone}`}
-												style={{ color: "inherit" }}
-											>
-												<i className="fa-solid fa-phone"></i>
-											</Link>
-											{user ? (
-												<Link
-													className="mx-2 mt-2"
-													onClick={() => handleLikeUnlike(card._id)}
-													style={{
-														display: user ? "inline-block" : "none",
-														color: "inherit",
-														cursor: "pointer",
-													}}
-												>
-													{card.likes && card.likes.includes(user._id) ? (
-														<i className="fa-solid fa-heart text-danger"></i>
-													) : (
-														<i className="fa-regular fa-heart"></i>
-													)}
-												</Link>
-											) : null}
-											{userType === "business" || userType === "admin" ? (
-												<Link
-													className="mx-2 mt-2"
-													to={`/edit-card/${card._id}`}
-													style={{
-														display:
-															user.isBusiness && card.user_id === user._id
-																? "inline-block"
-																: "none",
-														color: "inherit",
-														cursor: "pointer",
-													}}
-												>
-													<i className="fa-solid fa-pen-to-square"></i>
-												</Link>
-											) : null}
-											{userType === "business" || userType === "admin" ? (
-												<Link
-													className="mx-2 mt-2"
-													onClick={() => handleDelete(card._id)}
-													style={{
-														display:
-															user.isBusiness && card.user_id === user._id
-																? "inline-block"
-																: "none",
-														color: "inherit",
-														cursor: "pointer",
-													}}
-												>
-													<i className="fa-solid fa-trash-can"></i>
-												</Link>
-											) : null}
-										</Card.Footer>
-									</Card>
-								</div>
+									card={card}
+									handleLikeUnlike={handleLikeUnlike}
+									handleDelete={() => {
+										setSelectedCardId(card._id);
+										setShowDeleteCardModal(true);
+									}}
+									userType={userType}
+								/>
 							))
 						) : (
 							<p>No cards found.</p>

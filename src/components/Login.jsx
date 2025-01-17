@@ -4,6 +4,8 @@ import * as yup from "yup";
 import { ThemeContext } from "./Theme";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogin } from "../services/userService";
+import { emailValidation, passwordValidation } from "../services/schemaService";
+import FormField from "./FormField";
 
 function Login() {
 	const { themeClasses } = useContext(ThemeContext);
@@ -17,15 +19,8 @@ function Login() {
 			stayLoggedIn: false,
 		},
 		validationSchema: yup.object({
-			email: yup
-				.string()
-				.required("Email is required.")
-				.email("Invalid email format.")
-				.matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format."),
-			password: yup
-				.string()
-				.required("Password is required.")
-				.min(10, "Password must be at least 10 characters"),
+			email: emailValidation,
+			password: passwordValidation,
 			stayLoggedIn: yup.boolean(),
 		}),
 		onSubmit: async (values) => {
@@ -53,68 +48,24 @@ function Login() {
 					}}
 				>
 					<div className="form-floating mb-2 w-100">
-						<input
-							type="email"
-							autoComplete="on"
+						<FormField
 							name="email"
-							className={`form-control ${
-								formik.touched.email && formik.errors.email ? "is-invalid" : ""
-							}`}
-							id="floatingInput"
-							placeholder="name@example.com"
-							onChange={formik.handleChange}
-							value={formik.values.email}
-							onBlur={formik.handleBlur}
+							type="text"
+							fieldFor="Email"
+							formik={formik}
+							required={true}
+							fbColor={themeClasses.fbColor}
 						/>
-						<label
-							htmlFor="floatingInput"
-							className={`text-secondary ${
-								formik.touched.email && formik.errors.email ? "text-danger" : ""
-							}`}
-						>
-							Email*
-						</label>
-						{formik.touched.email && formik.errors.email ? (
-							<div
-								className={`invalid-feedback ${themeClasses.fbColor} rounded`}
-							>
-								{formik.errors.email}
-							</div>
-						) : null}
 					</div>
 					<div className="form-floating mb-2 w-100">
-						<input
-							type="password"
-							autoComplete="on"
+						<FormField
 							name="password"
-							className={`form-control ${
-								formik.touched.password && formik.errors.password
-									? "is-invalid"
-									: ""
-							}`}
-							id="floatingPassword"
-							placeholder="Password"
-							onChange={formik.handleChange}
-							value={formik.values.password}
-							onBlur={formik.handleBlur}
+							type="password"
+							fieldFor="Password"
+							formik={formik}
+							required={true}
+							fbColor={themeClasses.fbColor}
 						/>
-						<label
-							htmlFor="floatingPassword"
-							className={`text-secondary ${
-								formik.touched.password && formik.errors.password
-									? "text-danger"
-									: ""
-							}`}
-						>
-							Password*
-						</label>
-						{formik.touched.password && formik.errors.password ? (
-							<div
-								className={`invalid-feedback ${themeClasses.fbColor} rounded`}
-							>
-								{formik.errors.password}
-							</div>
-						) : null}
 					</div>
 					<div className="form-check mb-3">
 						<input

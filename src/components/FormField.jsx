@@ -10,6 +10,7 @@ function FormField({
 	fieldFor,
 	fbColor,
 	capitalize,
+	capitalLetter,
 }) {
 	const { value, onChange, onBlur } = formik.getFieldProps(name);
 
@@ -20,7 +21,9 @@ function FormField({
 				type={type}
 				autoComplete="on"
 				name={name}
-				className={`form-control ${capitalize ? "capitalize" : null} ${
+				className={`form-control ${capitalize ? "capitalize" : ""} ${
+					capitalLetter ? "capitalLetter" : ""
+				} ${
 					getIn(formik.touched, name) && getIn(formik.errors, name)
 						? "is-invalid"
 						: ""
@@ -46,11 +49,12 @@ function FormField({
 FormField.propTypes = {
 	name: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
-	fbColor: PropTypes.string,
-	capitalize: PropTypes.bool,
-	fieldFor: PropTypes.string.isRequired,
 	formik: PropTypes.object.isRequired,
 	required: PropTypes.bool,
+	fieldFor: PropTypes.string,
+	fbColor: PropTypes.string,
+	capitalize: PropTypes.bool,
+	capitalLetter: PropTypes.bool,
 };
 
 export default FormField;

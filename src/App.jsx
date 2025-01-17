@@ -55,7 +55,6 @@ function App() {
 					<div className="container">
 						<Routes>
 							{/* Everyone */}
-
 							<Route
 								path="/"
 								element={
@@ -75,7 +74,6 @@ function App() {
 							/>
 
 							{/* Only Guests */}
-
 							{userType === "guest" && (
 								<>
 									<Route path="/login" element={<Login />} />
@@ -104,13 +102,11 @@ function App() {
 							)}
 
 							{/* Admin */}
-
 							{userType === "admin" ? (
 								<Route path="/sandbox" element={<Sandbox />} />
 							) : null}
 
 							{/* Not Found */}
-
 							<Route path="*" element={<PageNotFound />} />
 						</Routes>
 					</div>

@@ -1,8 +1,74 @@
-# React + Vite
+# React WebApp Final Project - Reut Rosenfeld
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a final assignment for the Full-Stack Web and App Development course.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- About the Project
+- Built With
+- Getting Started
+  - Prerequisites
+  - GitHub Repository
+- Usage
+- Contributing
+- License
+- Contact
+
+---
+
+## About the Project
+
+This project is a comprehensive web application designed to demonstrate the skills and knowledge acquired during the Full-Stack Web and App Development course. The application includes various features such as user authentication, CRUD operations, and responsive design. It showcases the ability to build a full-fledged web application using modern web development technologies.
+
+## Built With
+
+- [React]
+- [Bootstrap]
+- [Formik]
+- [Yup]
+- [Axios]
+- [React Router]
+- [JWT Decode]
+- [Date-fns]
+
+## Getting Started
+
+### Prerequisites
+
+To run this project locally, you need to have Node.js and npm installed on your machine.
+
+### GitHub Repository
+
+Repository Link: https://github.com/reutrose/react-webapp-finalproject
+
+### Installation
+
+1. Clone the repository:
+   git clone https://github.com/reutrose/react-webapp-finalproject.git
+
+2. Navigate to the project directory:
+   cd react-webapp-finalproject
+
+3. Install the dependencies:
+   npm install
+
+4. Start the development server:
+   npm run dev
+
+## Usage
+
+This project is intended for educational purposes and to demonstrate the skills acquired during the course. It includes features such as user registration, login, and CRUD operations for managing business cards.
+
+## Contributing
+
+This project is a final assignment for educational purposes, so contributions are not necessary. However, feedback, suggestions, and constructive comments are always welcome to help improve my work. Please feel free to reach out if you have any recommendations or insights!
+
+## License
+
+Distributed under the MIT License.
+
+## Contact
+
+Name: Reut Rosenfeld
+Email: reutroz@gmail.com
+Phone: +972 50 294 4421

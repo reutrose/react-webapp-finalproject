@@ -22,7 +22,7 @@ function UserProfile() {
 				setLoading(false);
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 				setLoading(false);
 			});
 	}, [display]);

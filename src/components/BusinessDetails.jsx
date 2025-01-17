@@ -6,10 +6,12 @@ import { cardLikeUnlike, deleteCard } from "../services/cardService";
 import { Link, useNavigate } from "react-router-dom";
 import { ThemeContext } from "./Theme";
 import { jwtDecode } from "jwt-decode";
+import DeleteCardModal from "./modals/DeleteCardModal";
 
 function BusinessPage() {
 	let { id } = useParams();
 	const [loading, setLoading] = useState(true);
+	const [showDeleteCardModal, setShowDeleteCardModal] = useState(false);
 	let nav = useNavigate();
 	const { themeClasses } = useContext(ThemeContext);
 
@@ -33,7 +35,7 @@ function BusinessPage() {
 				setLoading(false);
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 			});
 	}, [id]);
 
@@ -43,16 +45,14 @@ function BusinessPage() {
 				setBusinessCard(updatedCard);
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 			});
 	};
 
 	const handleDelete = async (cardId) => {
 		try {
-			if (confirm("Are you sure you want to delete this card?")) {
-				await deleteCard(cardId);
-				nav("/");
-			}
+			await deleteCard(cardId);
+			nav("/");
 		} catch (error) {
 			console.error(error);
 		}
@@ -66,6 +66,11 @@ function BusinessPage() {
 				</div>
 			) : (
 				<>
+					<DeleteCardModal
+						show={showDeleteCardModal}
+						handleClose={() => setShowDeleteCardModal(false)}
+						handleDeleteCard={() => handleDelete(businessCard._id)}
+					/>
 					<div className="container mt-5">
 						<div
 							className={`card mb-3 ${themeClasses.bgColor} ${themeClasses.textColor}`}
@@ -131,7 +136,7 @@ function BusinessPage() {
 											</button>
 											<button
 												className="w-100 mb-2 btn btn-danger"
-												onClick={() => handleDelete(businessCard._id)}
+												onClick={() => setShowDeleteCardModal(true)}
 											>
 												DELETE CARD
 											</button>
