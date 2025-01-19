@@ -242,16 +242,14 @@ function EditUserDetails({ setDisplay }) {
 							<div className="d-flex mb-2 w-100 justify-content-center">
 								<button
 									type="button"
-									className="btn btn-outline-info me-1"
-									style={{ width: "100px" }}
+									className="btn btn-outline-info me-1 half-row-btn"
 									onClick={() => location.reload()}
 								>
 									BACK
 								</button>
 								<button
 									type="button"
-									className="btn btn-outline-warning ms-1"
-									style={{ width: "100px" }}
+									className="btn btn-outline-warning ms-1 half-row-btn"
 									onClick={() => formik.resetForm()}
 								>
 									CLEAR
@@ -263,11 +261,7 @@ function EditUserDetails({ setDisplay }) {
 								</div>
 							)}
 							<div className="d-flex mb-2 w-100 justify-content-center">
-								<button
-									type="submit"
-									className="btn btn-dark"
-									style={{ width: "200px" }}
-								>
+								<button type="submit" className="btn btn-dark full-row-btn">
 									SAVE
 								</button>
 							</div>

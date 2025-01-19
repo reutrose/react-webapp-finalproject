@@ -33,3 +33,15 @@ footer {
 	justify-content: center;
 	align-items: center;
 }
+
+.half-row-btn {
+	width: 100px;
+}
+
+.full-row-btn {
+	width: 200px;
+}
+
+.footer-btn {
+	font-size: 0.75rem;
+}

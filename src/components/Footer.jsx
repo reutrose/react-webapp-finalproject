@@ -15,8 +15,7 @@ function Footer({ userType }) {
 						<Link to="/about" className="text-decoration-none">
 							<Button
 								variant="link"
-								className={`text-decoration-none ${themeClasses.textColor}`}
-								style={{ fontSize: "0.75rem" }}
+								className={`text-decoration-none footer-btn ${themeClasses.textColor}`}
 							>
 								<i className="fa-solid fa-info-circle fa-xl mb-1"></i>
 								<br />
@@ -29,8 +28,7 @@ function Footer({ userType }) {
 							<Link to="/login" className="text-decoration-none">
 								<Button
 									variant="link"
-									className={`text-decoration-none ${themeClasses.textColor}`}
-									style={{ fontSize: "0.75rem" }}
+									className={`text-decoration-none footer-btn ${themeClasses.textColor}`}
 								>
 									<i className="fa-solid fa-sign-in-alt fa-xl mb-1"></i>
 									<br />
@@ -42,8 +40,7 @@ function Footer({ userType }) {
 							<Link to="/favorites" className="text-decoration-none">
 								<Button
 									variant="link"
-									className={`text-decoration-none ${themeClasses.textColor}`}
-									style={{ fontSize: "0.75rem" }}
+									className={`text-decoration-none footer-btn ${themeClasses.textColor}`}
 								>
 									<i className="fa-solid fa-heart fa-xl mb-1"></i>
 									<br />
@@ -57,8 +54,7 @@ function Footer({ userType }) {
 							<Link to="/register" className="text-decoration-none">
 								<Button
 									variant="link"
-									className={`text-decoration-none ${themeClasses.textColor}`}
-									style={{ fontSize: "0.75rem" }}
+									className={`text-decoration-none footer-btn ${themeClasses.textColor}`}
 								>
 									<i className="fa-solid fa-user-plus fa-xl mb-1"></i>
 									<br />
@@ -70,8 +66,7 @@ function Footer({ userType }) {
 							<Link to="/my-cards" className="text-decoration-none">
 								<Button
 									variant="link"
-									className={`text-decoration-none ${themeClasses.textColor}`}
-									style={{ fontSize: "0.75rem" }}
+									className={`text-decoration-none footer-btn ${themeClasses.textColor}`}
 								>
 									<i className="fa-solid fa-id-card-clip fa-xl mb-1"></i>
 									<br />
@@ -83,8 +78,7 @@ function Footer({ userType }) {
 							<Link to="/my-cards" className="text-decoration-none">
 								<Button
 									variant="link"
-									className={`text-decoration-none ${themeClasses.textColor}`}
-									style={{ fontSize: "0.75rem" }}
+									className={`text-decoration-none footer-btn ${themeClasses.textColor}`}
 								>
 									<i className="fa-solid fa-id-card-clip fa-xl mb-1"></i>
 									<br />

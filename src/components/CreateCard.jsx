@@ -228,16 +228,14 @@ function CreateCard() {
 				<div className="d-flex mb-2 w-100 justify-content-center">
 					<button
 						type="button"
-						className="btn btn-outline-info me-1"
-						style={{ width: "100px" }}
+						className="btn btn-outline-info me-1 half-row-btn"
 						onClick={() => nav("/")}
 					>
 						<i className="fa-solid fa-house"></i>
 					</button>
 					<button
 						type="button"
-						className="btn btn-outline-warning ms-1"
-						style={{ width: "100px" }}
+						className="btn btn-outline-warning ms-1 half-row-btn"
 						onClick={() => formik.resetForm()}
 					>
 						<i className="fa-solid fa-arrows-rotate"></i>
@@ -247,8 +245,7 @@ function CreateCard() {
 					<button
 						type="submit"
 						disabled={!formik.dirty || !formik.isValid}
-						className="btn btn-dark"
-						style={{ width: "200px" }}
+						className="btn btn-dark full-row-btn"
 					>
 						SUBMIT
 					</button>
