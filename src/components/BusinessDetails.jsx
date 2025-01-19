@@ -122,27 +122,29 @@ function BusinessPage() {
 										</p>
 									</div>
 								</div>
-								{user.isBusiness && businessCard.user_id === user._id && (
-									<div
-										className={`card mb-3 ${themeClasses.bgColor} ${themeClasses.textColor}`}
-									>
-										<div className="card-body">
-											<h5 className="card-title">Hello, Owner!</h5>
-											<button
-												className="w-100 mb-2 btn btn-warning"
-												onClick={() => nav(`/edit-card/${businessCard._id}`)}
-											>
-												EDIT CARD
-											</button>
-											<button
-												className="w-100 mb-2 btn btn-danger"
-												onClick={() => setShowDeleteCardModal(true)}
-											>
-												DELETE CARD
-											</button>
+								{user &&
+									user.isBusiness &&
+									businessCard.user_id === user._id && (
+										<div
+											className={`card mb-3 ${themeClasses.bgColor} ${themeClasses.textColor}`}
+										>
+											<div className="card-body">
+												<h5 className="card-title">Hello, Owner!</h5>
+												<button
+													className="w-100 mb-2 btn btn-warning"
+													onClick={() => nav(`/edit-card/${businessCard._id}`)}
+												>
+													EDIT CARD
+												</button>
+												<button
+													className="w-100 mb-2 btn btn-danger"
+													onClick={() => setShowDeleteCardModal(true)}
+												>
+													DELETE CARD
+												</button>
+											</div>
 										</div>
-									</div>
-								)}
+									)}
 							</div>
 							<div className="col-12 col-md-6">
 								<div
