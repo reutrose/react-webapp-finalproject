@@ -35,14 +35,8 @@ const CardTemplate = ({ card, handleLikeUnlike, handleDelete, userType }) => {
 						alt={card.image.alt}
 					/>
 					<Card.Body>
-						<Card.Title>{card.title}</Card.Title>
-						<Card.Text
-							style={{
-								height: "70px",
-							}}
-						>
-							{card.subtitle}
-						</Card.Text>
+						<Card.Title className="capitalize">{card.title}</Card.Title>
+						<Card.Text className="capitalize">{card.subtitle}</Card.Text>
 						<hr />
 						<ListGroup variant="flush">
 							<ListGroup.Item
@@ -52,7 +46,7 @@ const CardTemplate = ({ card, handleLikeUnlike, handleDelete, userType }) => {
 								{card.phone}
 							</ListGroup.Item>
 							<ListGroup.Item
-								className={`m-1 ${themeClasses.bgColor} ${themeClasses.textColor}`}
+								className={`m-1 ${themeClasses.bgColor} ${themeClasses.textColor} capitalize`}
 							>
 								<span className="fw-bold">Address: </span>
 								{card.address.street} {card.address.houseNumber},

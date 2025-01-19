@@ -150,7 +150,7 @@ function BusinessPage() {
 								>
 									<div className="card-body">
 										<h5 className="card-title">About The Business:</h5>
-										<p className="card-text capitalize">
+										<p className="card-text capitalLetter">
 											{businessCard.description}
 										</p>
 									</div>

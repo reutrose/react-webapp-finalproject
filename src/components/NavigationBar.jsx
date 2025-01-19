@@ -17,14 +17,12 @@ function NavigationBar({ userType, onSearch }) {
 	};
 
 	return (
-		<Navbar expand="lg" className={themeClasses.navColor}>
+		<Navbar expand="lg" className={`${themeClasses.navColor} navigation-bar`}>
 			<Container fluid>
 				<Navbar.Brand href="/">
 					<img
 						src="/BCardsLogo.svg"
-						width="120"
-						height="50"
-						className="d-inline-block align-top"
+						className="d-inline-block align-top nav-logo"
 						alt="BCards Logo"
 					/>
 				</Navbar.Brand>
