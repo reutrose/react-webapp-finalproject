@@ -47,6 +47,100 @@ function App() {
 		setFilteredCards(filtered);
 	};
 
+	const ADMIN_ROUTES = (
+		<>
+			<Route
+				path="/"
+				element={
+					<Home
+						cards={cards}
+						setCards={setCards}
+						filteredCards={filteredCards}
+						setFilteredCards={setFilteredCards}
+						userType={userType}
+					/>
+				}
+			/>
+			<Route path="/about" element={<About />} />
+			<Route path="/business-details/:id" element={<BusinessDetails />} />
+			<Route path="/favorites" element={<Favorites />} />
+			<Route path="/profile" element={<UserProfile userType={userType} />} />
+			<Route path="/my-cards" element={<MyCards />} />
+			<Route path="/create-card" element={<CreateCard />} />
+			<Route path="/edit-card/:id" element={<EditCard />} />
+			<Route path="/sandbox" element={<Sandbox />} />
+		</>
+	);
+	const BUSINESS_ROUTES = (
+		<>
+			<Route
+				path="/"
+				element={
+					<Home
+						cards={cards}
+						setCards={setCards}
+						filteredCards={filteredCards}
+						setFilteredCards={setFilteredCards}
+						userType={userType}
+					/>
+				}
+			/>
+			<Route path="/about" element={<About />} />
+			<Route path="/business-details/:id" element={<BusinessDetails />} />
+			<Route path="/favorites" element={<Favorites />} />
+			<Route path="/profile" element={<UserProfile userType={userType} />} />
+			<Route path="/my-cards" element={<MyCards />} />
+			<Route path="/create-card" element={<CreateCard />} />
+			<Route path="/edit-card/:id" element={<EditCard />} />
+		</>
+	);
+	const USER_ROUTES = (
+		<>
+			<Route
+				path="/"
+				element={
+					<Home
+						cards={cards}
+						setCards={setCards}
+						filteredCards={filteredCards}
+						setFilteredCards={setFilteredCards}
+						userType={userType}
+					/>
+				}
+			/>
+			<Route path="/about" element={<About />} />
+			<Route path="/business-details/:id" element={<BusinessDetails />} />
+			<Route path="/favorites" element={<Favorites />} />
+			<Route path="/profile" element={<UserProfile userType={userType} />} />
+			<Route path="" element="" />
+			<Route path="" element="" />
+			<Route path="" element="" />
+		</>
+	);
+	const GUEST_ROUTES = (
+		<>
+			<Route
+				path="/"
+				element={
+					<Home
+						cards={cards}
+						setCards={setCards}
+						filteredCards={filteredCards}
+						setFilteredCards={setFilteredCards}
+						userType={userType}
+					/>
+				}
+			/>
+			<Route path="/about" element={<About />} />
+			<Route path="/business-details/:id" element={<BusinessDetails />} />
+			<Route path="/login" element={<Login />} />
+			<Route path="/register" element={<Register />} />
+			<Route path="" element="" />
+			<Route path="" element="" />
+			<Route path="" element="" />
+		</>
+	);
+
 	return (
 		<ThemeProvider>
 			<Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
@@ -54,59 +148,10 @@ function App() {
 					<NavigationBar userType={userType} onSearch={handleSearch} />
 					<div className="container">
 						<Routes>
-							{/* Everyone */}
-							<Route
-								path="/"
-								element={
-									<Home
-										cards={cards}
-										setCards={setCards}
-										filteredCards={filteredCards}
-										setFilteredCards={setFilteredCards}
-										userType={userType}
-									/>
-								}
-							/>
-							<Route path="/about" element={<About />} />
-							<Route
-								path="/business-details/:id"
-								element={<BusinessDetails />}
-							/>
-
-							{/* Only Guests */}
-							{userType === "guest" && (
-								<>
-									<Route path="/login" element={<Login />} />
-									<Route path="/register" element={<Register />} />
-								</>
-							)}
-
-							{/* Admin, Business, Customer */}
-							{userType !== "guest" && (
-								<>
-									<Route path="/favorites" element={<Favorites />} />
-									<Route
-										path="/profile"
-										element={<UserProfile userType={userType} />}
-									/>
-								</>
-							)}
-
-							{/* Admin, Business */}
-							{userType !== "guest" && userType !== "user" && (
-								<>
-									<Route path="/my-cards" element={<MyCards />} />
-									<Route path="/create-card" element={<CreateCard />} />
-									<Route path="/edit-card/:id" element={<EditCard />} />
-								</>
-							)}
-
-							{/* Admin */}
-							{userType === "admin" ? (
-								<Route path="/sandbox" element={<Sandbox />} />
-							) : null}
-
-							{/* Not Found */}
+							{userType === "admin" && ADMIN_ROUTES}
+							{userType === "business" && BUSINESS_ROUTES}
+							{userType === "user" && USER_ROUTES}
+							{userType === "guest" && GUEST_ROUTES}
 							<Route path="*" element={<PageNotFound />} />
 						</Routes>
 					</div>
