@@ -6,6 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { ThemeContext } from "./Theme";
+import { Link } from "react-router-dom";
 
 function NavigationBar({ userType, onSearch }) {
 	const { themeClasses, toggleTheme } = useContext(ThemeContext);
@@ -19,7 +20,7 @@ function NavigationBar({ userType, onSearch }) {
 	return (
 		<Navbar expand="lg" className={`${themeClasses.navColor} navigation-bar`}>
 			<Container fluid>
-				<Navbar.Brand href="/">
+				<Navbar.Brand to="/">
 					<img
 						src="/BCardsLogo.svg"
 						className="d-inline-block align-top nav-logo"
@@ -36,28 +37,31 @@ function NavigationBar({ userType, onSearch }) {
 						style={{ maxHeight: "100px" }}
 						navbarScroll
 					>
-						<Nav.Link to="/about" className="text-light fw-bold me-2">
+						<Link to="/about" className="nav-link text-light fw-bold me-2">
 							ABOUT
-						</Nav.Link>
+						</Link>
 						{userType !== "guest" && (
-							<Nav.Link href="/favorites" className="text-light fw-bold me-2">
+							<Link
+								to="/favorites"
+								className="nav-link text-light fw-bold me-2"
+							>
 								FAV CARDS
-							</Nav.Link>
+							</Link>
 						)}
 						{userType === "business" && (
-							<Nav.Link href="/my-cards" className="text-light fw-bold me-2">
+							<Link to="/my-cards" className="nav-link text-light fw-bold me-2">
 								MY CARDS
-							</Nav.Link>
+							</Link>
 						)}
 						{userType === "admin" && (
-							<Nav.Link href="/my-cards" className="text-light fw-bold me-2">
+							<Link to="/my-cards" className="nav-link text-light fw-bold me-2">
 								MY CARDS
-							</Nav.Link>
+							</Link>
 						)}
 						{userType === "admin" && (
-							<Nav.Link href="/sandbox" className="text-light fw-bold me-2">
+							<Link to="/sandbox" className="nav-link text-light fw-bold me-2">
 								SANDBOX
-							</Nav.Link>
+							</Link>
 						)}
 					</Nav>
 					<Form className="d-flex bg-light rounded me-2">
@@ -82,19 +86,19 @@ function NavigationBar({ userType, onSearch }) {
 					</Button>
 					<Nav style={{ maxHeight: "100px" }} navbarScroll>
 						{userType === "guest" && (
-							<Nav.Link href="/register" className="text-light fw-bold">
+							<Link to="/register" className="nav-link text-light fw-bold">
 								SIGNUP
-							</Nav.Link>
+							</Link>
 						)}
 						{userType === "guest" && (
-							<Nav.Link href="/login" className="text-light fw-bold">
+							<Link to="/login" className="nav-link text-light fw-bold">
 								LOGIN
-							</Nav.Link>
+							</Link>
 						)}
 						{userType !== "guest" && (
-							<Nav.Link href="/profile" className="text-light">
+							<Link to="/profile" className="nav-link text-light">
 								<i className="fa-solid fa-circle-user fa-2xl mx-2"></i>
-							</Nav.Link>
+							</Link>
 						)}
 					</Nav>
 				</Navbar.Collapse>
