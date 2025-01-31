@@ -36,7 +36,7 @@ function NavigationBar({ userType, onSearch }) {
 						style={{ maxHeight: "100px" }}
 						navbarScroll
 					>
-						<Nav.Link href="/about" className="text-light fw-bold me-2">
+						<Nav.Link to="/about" className="text-light fw-bold me-2">
 							ABOUT
 						</Nav.Link>
 						{userType !== "guest" && (
