@@ -52,7 +52,9 @@ Repository Link: https://github.com/reutrose/react-webapp-finalproject
 3. Install the dependencies:
    npm install
 
-4. Start the development server:
+4. If you have the needed access, you should download the zip file contains the `.env` file, then extract the files to the main folder of that project.
+
+5. Start the development server:
    npm run dev
 
 ## Usage
