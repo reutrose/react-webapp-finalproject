@@ -20,7 +20,7 @@ function NavigationBar({ userType, onSearch }) {
 	return (
 		<Navbar expand="lg" className={`${themeClasses.navColor} navigation-bar`}>
 			<Container fluid>
-				<Navbar.Brand to="/">
+				<Navbar.Brand href="/">
 					<img
 						src="/BCardsLogo.svg"
 						className="d-inline-block align-top nav-logo"
