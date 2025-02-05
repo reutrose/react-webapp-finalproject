@@ -1,6 +1,6 @@
 # React WebApp Final Project - Reut Rosenfeld
 
-This project is a final assignment for the Full-Stack Web and App Development course.
+This project is a final assignment for the Full-Stack Web and App Development course, in module React.
 
 ## Table of Contents
 
